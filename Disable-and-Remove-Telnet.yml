@@ -1,0 +1,17 @@
+---
+- name: Disable and Remove Telnet
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Stop and disable the Telnet service
+      systemd:
+        name: telnet.socket
+        state: stopped
+        enabled: no
+
+    - name: Remove the Telnet package (optional)
+      package:
+        name: telnet
+        state: absent
+

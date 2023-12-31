@@ -1,0 +1,17 @@
+---
+- name: Disable Root Login
+  hosts: all
+  tasks:
+    - name: Replace PermitRootLogin in sshd_config
+      replace:
+        path: /etc/ssh/sshd_config
+        regexp: '^#PermitRootLogin\s+\w+'
+        replace: 'PermitRootLogin no'
+      become: yes
+
+    - name: Restart SSH service
+      service:
+        name: sshd
+        state: restarted
+      become: yes
+

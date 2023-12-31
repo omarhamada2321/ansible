@@ -1,0 +1,17 @@
+---
+- name: Disable and Remove VNC
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Stop and disable the VNC service (replace 'vncserver@:1' with your VNC service name)
+      systemd:
+        name: vncserver@:1
+        state: stopped
+        enabled: no
+
+    - name: Remove the TigerVNC package (optional)
+      package:
+        name: tigervnc-server
+        state: absent
+

@@ -1,0 +1,10 @@
+- hosts: all
+  tasks:
+    - name: Inactive accounts more than 90 days must be deactivated
+      lineinfile:
+            dest: /etc/pam.d/system-auth 
+            regexp: '^auth    required    pam_lastlog.so inactive=90'
+            line: "auth    required    pam_lastlog.so inactive=90"
+            state: present
+            backup: yes
+      become: yes    

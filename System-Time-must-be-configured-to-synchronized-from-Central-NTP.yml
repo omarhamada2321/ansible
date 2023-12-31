@@ -1,0 +1,36 @@
+---
+- name: Configure Time Synchronization with Central NTP on Red Hat 8.6
+  hosts: all
+  tasks:
+    - name: Install chrony
+      package:
+        name: chrony
+        state: present
+      become: yes
+      ignore_errors: yes
+    - name: Configure chrony to synchronize with NTP server-1
+      lineinfile:
+        path: /etc/chrony.conf
+        line: "server 10.100.245.70 iburst"
+      become: yes  
+
+    - name: Configure chrony to synchronize with NTP server-2
+      lineinfile:
+        path: /etc/chrony.conf
+        line: "server 10.100.245.70 iburst"
+      become: yes
+      notify: Restart Chrony Service
+    - name: Display configured NTP servers
+      shell: cat /etc/chrony.conf | grep '^server'
+      register: chrony_config
+      become: yes
+
+    - debug:
+        var: chrony_config.stdout_lines  
+
+  handlers:
+    - name: Restart Chrony Service
+      service:
+        name: chronyd
+        state: restarted
+

@@ -1,0 +1,17 @@
+---
+- name: Disable and Remove SNMP v1
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Stop and disable the SNMP daemon
+      systemd:
+        name: snmpd
+        state: stopped
+        enabled: no
+
+    - name: Remove the SNMP package
+      package:
+        name: net-snmp
+        state: absent
+

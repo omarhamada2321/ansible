@@ -1,0 +1,17 @@
+---
+- name: Disable and Remove FTP
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Stop and disable the FTP service (replace 'vsftpd' with the actual service name)
+      systemd:
+        name: vsftpd
+        state: stopped
+        enabled: no
+
+    - name: Remove the FTP package (replace 'vsftpd' with the actual package name)
+      package:
+        name: vsftpd
+        state: absent
+

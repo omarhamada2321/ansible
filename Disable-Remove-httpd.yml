@@ -1,0 +1,15 @@
+- name: Disable and Remove httpd
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Stop and disable the httpd service 
+      systemd:
+        name: httpd
+        state: stopped
+        enabled: no
+
+    - name: Remove the TeamViewer package (optional)
+      package:
+        name: httpd
+        state: absent

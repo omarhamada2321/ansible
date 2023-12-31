@@ -1,0 +1,17 @@
+---
+- name: Disable and Remove SMB v1
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Stop and disable the SMB service
+      systemd:
+        name: smbd
+        state: stopped
+        enabled: no
+
+    - name: Remove the Samba package
+      package:
+        name: samba
+        state: absent
+

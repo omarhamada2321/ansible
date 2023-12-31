@@ -1,0 +1,24 @@
+---
+- name: Configure Idle Session Timeout
+  hosts: all
+  tasks:
+    - name: Set Idle Session Timeout in sshd_config
+      replace:
+        path: /etc/ssh/sshd_config
+        regexp: '^#ClientAliveInterval\s+\w+'
+        replace: 'ClientAliveInterval 900'
+      become: yes
+
+    - name: Set Idle Session Timeout in sshd_config
+      replace:
+        path: /etc/ssh/sshd_config
+        regexp: '^#ClientAliveCountMax\s+\w+'
+        replace: 'ClientAliveCountMax 0'
+      become: yes
+
+    - name: Restart SSH Service
+      service:
+        name: sshd
+        state: restarted
+      become: yes
+

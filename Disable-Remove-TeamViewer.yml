@@ -1,0 +1,17 @@
+---
+- name: Disable and Remove TeamViewer
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Stop and disable the TeamViewer service (replace 'teamviewerd' with your service name)
+      systemd:
+        name: teamviewerd
+        state: stopped
+        enabled: no
+
+    - name: Remove the TeamViewer package (optional)
+      package:
+        name: teamviewer
+        state: absent
+
